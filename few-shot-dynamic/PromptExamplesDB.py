@@ -29,6 +29,21 @@ class PromptExamplesDB:
         distancias, idx = self.index.search(query_vec, n)
 
         prompt = ""
+        fewShorLearning = ""
+        fewShorLearning += "You are an expert at writing prompts for code generation.\n"
+        fewShorLearning +=  "\n"
+        fewShorLearning +=  "Given:\n"
+        fewShorLearning +=  "- A task description\n"
+        fewShorLearning +=  "- A current prompt\n"
+        fewShorLearning +=  "- Several input/output examples\n"
+        fewShorLearning +=  "\n"
+        fewShorLearning +=  "our goal is to rewrite the prompt so that it better guides the model\n"
+        fewShorLearning +=  "o produce correct Java code.\n"
+        fewShorLearning +=  "\n"
+        fewShorLearning +=  "Current prompt:\n"
+        fewShorLearning +=  f"<{query}>\n"
+        fewShorLearning +=  "\n"
+        fewShorLearning +=  "Examples:\n"
         k = 1
         for i, id_doc in enumerate(idx[0]):
             prompt += f"Prompt {k}:\n"
@@ -37,10 +52,16 @@ class PromptExamplesDB:
             prompt += f"Result {k}:\n"
             prompt += f"{self.documents[self.idx_document[id_doc]]}\n\n\n"
             prompt += f"_____________________________________\n"
+
+            #fewShorLearning +=  f"<{self.idx_document[id_doc]}, {self.documents[self.idx_document[id_doc]]}>\n"
+            fewShorLearning +=  f"<{self.idx_document[id_doc]}>\n"
             k += 1
 
         prompt += f"Prompt: {query}\n"
         prompt += "\n"
         prompt += f"Result:\n"
+        fewShorLearning +=  "\n"
+        fewShorLearning +=  "\n"
+        fewShorLearning +=  "Write an improved prompt:\n"
 
-        return prompt
+        return prompt, fewShorLearning
