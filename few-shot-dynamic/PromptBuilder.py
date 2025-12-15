@@ -13,7 +13,7 @@ class PromptBuilder:
         improvedPrompts = []
 
         for sample in dataset:
-            prompt = sample["nl"]
+            prompt = sample["nl"].split("concode")[0]
             improvedPrompt = self.promptExamples.search(prompt, n)
             improvedPrompts.append(improvedPrompt)
 
