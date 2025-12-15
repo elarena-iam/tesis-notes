@@ -1,5 +1,8 @@
-from PromptExamplesDB import PromptExamplesDB
+from PromptBuilder import PromptBuilder
 
-promptDb = PromptExamplesDB()
+promptBuilder = PromptBuilder()
 
-promptDb.search("load a list", 5)
+prompts = promptBuilder.process(5)
+
+for prompt in prompts:
+    print(prompt)

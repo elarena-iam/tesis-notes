@@ -7,7 +7,7 @@ from DatasetReader import DatasetReader
 class PromptExamplesDB:
 
     def __init__(self):
-        self.dataset_reader = DatasetReader(10000, "D:\\Proyectos\\Python\\IAG\\train.json")
+        self.dataset_reader = DatasetReader(1000, "..\\train.json")
         data = self.dataset_reader.load()
         self.documents = dict()
         for item in data:
@@ -28,13 +28,19 @@ class PromptExamplesDB:
 
         distancias, idx = self.index.search(query_vec, n)
 
-        print("\nResultados:")
+        prompt = ""
         k = 1
         for i, id_doc in enumerate(idx[0]):
-            prompt = f"Prompt {k}:\n"
+            prompt += f"Prompt {k}:\n"
             prompt += f"{self.idx_document[id_doc]} \n"
             prompt += "\n"
             prompt += f"Result {k}:\n"
-            prompt += f"{self.documents[self.idx_document[id_doc]]}\n"
-            print(prompt)
+            prompt += f"{self.documents[self.idx_document[id_doc]]}\n\n\n"
+            prompt += f"_____________________________________\n"
             k += 1
+
+        prompt += f"Prompt: {query}\n"
+        prompt += "\n"
+        prompt += f"Result:\n"
+
+        return prompt
